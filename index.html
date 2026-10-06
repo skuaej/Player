@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-width=1.0">
+    <title>DRIVEXSLIP</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Shaka Player UI & CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/shaka-player@4.16.2/dist/shaka-player.ui.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@4.16.2/dist/controls.css">
+    
+    <!-- Google Fonts: Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #0d0d12;
+            color: #ffffff;
+        }
+        .stream-card {
+            background-color: #16161f;
+            border: 1px solid #2a2a35;
+        }
+        .stream-card.active {
+            border-color: #8b5cf6;
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col pb-10 text-sm md:text-base">
+
+    <!-- Header -->
+    <header class="flex justify-between items-center px-4 py-4 border-b border-gray-800">
+        <div class="flex items-center space-x-2">
+            <div class="bg-purple-600 text-white font-bold rounded p-1 text-xs">DX</div>
+            <div class="font-bold tracking-widest text-lg">DRIVEXSLIP</div>
+        </div>
+        <div class="bg-[#1a1a24] border border-gray-700 px-3 py-1.5 rounded-full flex items-center space-x-2 text-xs font-semibold">
+            <span class="w-2 h-2 rounded-full bg-purple-500 animate-pulse"></span>
+            <span>LIVE NOW</span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow px-4 mt-6 max-w-3xl mx-auto w-full">
+        
+        <!-- Titles -->
+        <div class="mb-4">
+            <h2 class="text-gray-400 text-xs font-semibold tracking-wider uppercase mb-1">Live Cricket Streaming</h2>
+            <h1 class="text-3xl font-bold mb-2">Watch Live.</h1>
+            <p class="text-gray-400 text-sm">Choose a stream below and start watching instantly.</p>
+        </div>
+
+        <!-- Video Player Container -->
+        <div class="w-full bg-black rounded-xl overflow-hidden aspect-video relative mb-6 shadow-lg border border-gray-800" data-shaka-player-container>
+            <video id="video" class="w-full h-full" data-shaka-player autoplay></video>
+        </div>
+
+        <!-- Stream Selection -->
+        <div class="flex justify-between items-center mb-3">
+            <h3 class="font-bold text-lg">Available Streams</h3>
+            <span class="text-xs text-gray-500">Tap to switch</span>
+        </div>
+
+        <div class="space-y-3 mb-6">
+            <!-- Active Stream Card -->
+            <div class="stream-card active rounded-xl p-4 flex items-center space-x-3 cursor-pointer">
+                <div class="w-6 h-4 bg-white rounded flex justify-center items-center overflow-hidden">
+                    <img src="https://flagcdn.com/w20/in.png" alt="India" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <div class="font-bold">Hindi</div>
+                    <div class="text-xs text-purple-400 mt-0.5">Recommended</div>
+                </div>
+            </div>
+
+            <!-- Inactive Stream Cards -->
+            <div class="stream-card rounded-xl p-4 flex items-center space-x-3 cursor-pointer opacity-80 hover:opacity-100 transition-opacity">
+                <div class="text-xl">🏆</div>
+                <div>
+                    <div class="font-bold">TNT</div>
+                    <div class="text-xs text-gray-500 mt-0.5">Available</div>
+                </div>
+            </div>
+
+            <div class="stream-card rounded-xl p-4 flex items-center space-x-3 cursor-pointer opacity-80 hover:opacity-100 transition-opacity">
+                <div class="text-xl">🏏</div>
+                <div>
+                    <div class="font-bold">Willow</div>
+                    <div class="text-xs text-gray-500 mt-0.5">Available</div>
+                </div>
+            </div>
+            
+            <div class="stream-card rounded-xl p-4 flex items-center space-x-3 cursor-pointer opacity-80 hover:opacity-100 transition-opacity">
+                <div class="text-xl">⭐</div>
+                <div>
+                    <div class="font-bold">Hotstar</div>
+                    <div class="text-xs text-gray-500 mt-0.5">Available</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="space-y-3 mb-10">
+            <button class="w-full py-3.5 rounded-xl font-bold text-white bg-gradient-to-r from-purple-600 to-purple-500 flex justify-center items-center space-x-2 shadow-lg">
+                <span>↗ Share Stream</span>
+            </button>
+            <button class="w-full py-3.5 rounded-xl font-bold text-white bg-gradient-to-r from-blue-600 to-blue-500 flex justify-center items-center space-x-2 shadow-lg">
+                <span>✈ Join Telegram</span>
+            </button>
+        </div>
+
+        <!-- Footer -->
+        <footer class="border-t border-gray-800 pt-6 mt-6">
+            <div class="font-bold tracking-widest text-lg mb-1">DRIVEXSLIP</div>
+            <div class="text-gray-400 text-xs mb-4">Live cricket • Scores • Updates</div>
+            <div class="text-gray-500 text-xs">
+                Fast, simple and mobile friendly<br>
+                Enjoy the match.
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- Shaka Player Initialization Script -->
+    <script>
+        const manifestUri = 'https://jiotvpllive.cdn.jio.com/bpk-tv/Star_Sports_HD1_Hindi_BTS/WDVLive/index.mpd?__hdnea__=st=1791293509~exp=1791315109~acl=/bpk-tv/Star_Sports_HD1_Hindi_BTS/WDVLive/*~hmac=8a1c8d72ad32fbcc75c6c63e6678fdf3c5ffc13c005f71e33cbd5c6d46d22312';
+
+        async function initPlayer() {
+            // Install built-in polyfills to patch browser incompatibilities.
+            shaka.polyfill.installAll();
+
+            if (shaka.Player.isBrowserSupported()) {
+                const video = document.getElementById('video');
+                const videoContainer = document.querySelector('[data-shaka-player-container]');
+                
+                // Initialize the UI player
+                const player = new shaka.Player(video);
+                const ui = new shaka.ui.Overlay(player, videoContainer, video);
+
+                // Configure standard UI controls
+                ui.configure({
+                    controlPanelElements: ['play_pause', 'time_and_duration', 'spacer', 'mute', 'volume', 'fullscreen', 'overflow_menu']
+                });
+
+                // Listen for error events
+                player.addEventListener('error', onErrorEvent);
+
+                // Try to load a manifest
+                try {
+                    await player.load(manifestUri);
+                    console.log('The video has now been loaded!');
+                } catch (e) {
+                    onError(e);
+                }
+            } else {
+                console.error('Browser not supported!');
+            }
+        }
+
+        function onErrorEvent(event) {
+            onError(event.detail);
+        }
+
+        function onError(error) {
+            console.error('Error code', error.code, 'object', error);
+            const videoElement = document.getElementById('video');
+            // Show a visual error on the screen if playback fails
+            videoElement.outerHTML = `<div class="flex items-center justify-center w-full h-full bg-gray-900 text-red-400 p-4 text-center">Video playback failed. <br> Error: Token expired or Cross-Origin Request Blocked.</div>`;
+        }
+
+        document.addEventListener('DOMContentLoaded', initPlayer);
+    </script>
+</body>
+</html>
